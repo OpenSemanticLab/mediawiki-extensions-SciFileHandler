@@ -13,8 +13,10 @@ class SciFileHandlerHooks {
 		// "ExtensionMessagesFiles": { "SciFileHandlerMagic": "SciFileHandler.i18n.magic.php" }
 		// in extension.json
 
-		$parser->setFunctionHook( 'hdf', 'SciFileHandlerHooks::doSomething' );
-		#$parser->setFunctionHook( 'hdf', [ 'SciFileHandlerHooks', 'doSomething' ]  );
+		#$parser->setFunctionHook( 'hdf', 'SciFileHandlerHooks::doSomething' );
+		#$parser->setFunctionHook( 'base64img', 'SciFileHandlerHooks::base64img' );
+		$parser->setFunctionHook( 'hdf', [ 'SciFileHandlerHooks', 'doSomething' ]  );
+		$parser->setFunctionHook( 'base64img', [ 'SciFileHandlerHooks', 'base64img' ]  );
 	}
 
 	/**
@@ -29,6 +31,24 @@ class SciFileHandlerHooks {
 		// See: https://www.mediawiki.org/wiki/Manual:Parser_functions#Named_parameters
 
 		return "This text will be shown when calling this in MW text.";
+	}
+
+	/**
+	 * @param Parser &$parser
+	 * @param string &$text
+	 * @return true
+	 */
+	public static function base64img( &$parser, &$text ) {
+		// Called in MW text like this: {{#base64img: }}
+
+		// For named parameters like {{#hdf: foo=bar | apple=orange | banana }}
+		// See: https://www.mediawiki.org/wiki/Manual:Parser_functions#Named_parameters
+		$result = Html::rawElement ( 'img', array(
+			'src' => $text,
+			'style' => "width: 100%; height: auto;"
+		) );
+		return [$result, 'isHTML' => true, 'noparse' => true ];
+
 	}
 
 	public static function onMimeMagicInit( $mime ) {
