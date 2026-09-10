@@ -6,7 +6,7 @@
 	],
 	"url": "https://github.com/OpenSemanticLab/mediawiki-extensions-SciFileHandler",
 	"descriptionmsg": "scifilehandler-desc",
-	"license-name": "AGPL v3",
+	"license-name": "Apache-2.0",
 	"type": "media",
 	"manifest_version": 2,
 	"requires": {
